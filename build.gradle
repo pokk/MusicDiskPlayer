@@ -21,6 +21,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
     tasks.withType(Javadoc).all { enabled = false }
 }
