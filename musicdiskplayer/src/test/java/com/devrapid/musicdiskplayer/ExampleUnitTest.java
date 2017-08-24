@@ -1,4 +1,4 @@
-package musicdiskplayer.devrapid.com.musicdiskplayer;
+package com.devrapid.musicdiskplayer;
 
 import org.junit.Test;
 
