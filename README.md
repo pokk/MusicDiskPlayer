@@ -1,5 +1,13 @@
 # MusicDiskPlayer
 
+This library provides a rotated circle music player view. You could customize the
+
+vary variables by yourself.
+
+Let's see the result is faster than I explain. :)
+
+# How to use
+
 # Gradle
 
 # Maven
