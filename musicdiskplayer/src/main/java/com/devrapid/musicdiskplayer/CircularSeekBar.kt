@@ -10,7 +10,6 @@ import android.graphics.RectF
 import android.os.Build.VERSION_CODES
 import android.support.annotation.RequiresApi
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.LinearInterpolator
@@ -30,6 +29,7 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         private const val DEFAULT_SWEEP_DEGREE = 265f
         private const val WIDTH_OF_PROGRESS = 13f
         private const val BUTTON_RADIUS = 25f
+        private const val INNER_PADDING = 25f
     }
 
     //region Variables of setting
@@ -45,13 +45,13 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
             this.onProgressChanged?.invoke(rawValue, this@CircularSeekBar.remainedTime.toInt())
             this.invalidate()
         }
-    var progressColor = 0xFF7F50
+    var progressColor = 0xFFFF7F50.toInt()
         set(value) {
             field = value
             this.playedProgressPaint.color = field
             this.postInv()
         }
-    var unprogressColor = 0xA9A9A9
+    var unprogressColor = 0xFFA9A9A9.toInt()
         set(value) {
             field = value
             this.unplayProgressPaint.color = field
@@ -74,13 +74,13 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
             field = value
             this.postInv()
         }
-    var unpressBtnColor = 0x8A2BE2
+    var unpressBtnColor = 0xFF8A2BE2.toInt()
         set(value) {
             field = value
             this.controllerBtnPaint.color = field
             this.postInv()
         }
-    var pressBtnColor = 0x00008B
+    var pressBtnColor = 0xFF00008B.toInt()
         set(value) {
             field = value
             this.controllerBtnPaint.color = field
@@ -110,7 +110,6 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
     }
     private val playedProgressPaint by lazy {
         Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            Log.d("tag", this@CircularSeekBar.context.toString())
             color = this@CircularSeekBar.unprogressColor
             strokeCap = Paint.Cap.ROUND
             strokeWidth = this@CircularSeekBar.progressWidth
@@ -125,20 +124,20 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
     private val pm by lazy {
         PathMeasure().apply {
             setPath(Path().apply {
-                addArc(RectF(0f + this@CircularSeekBar.paddingStart,
-                    0f + this@CircularSeekBar.paddingTop,
-                    width.toFloat() - this@CircularSeekBar.paddingEnd,
-                    height.toFloat() - this@CircularSeekBar.paddingBottom),
+                addArc(RectF(INNER_PADDING + this@CircularSeekBar.paddingStart,
+                    INNER_PADDING + this@CircularSeekBar.paddingTop,
+                    width.toFloat() - this@CircularSeekBar.paddingEnd - INNER_PADDING,
+                    height.toFloat() - this@CircularSeekBar.paddingBottom - INNER_PADDING),
                     this@CircularSeekBar.startDegree,
                     this@CircularSeekBar.sweepDegree)
             }, false)
         }
     }
     private val rectF by lazy {
-        RectF(0f + this.paddingStart,
-            0f + this.paddingTop,
-            width.toFloat() - this.paddingEnd,
-            height.toFloat() - this.paddingBottom)
+        RectF(INNER_PADDING + this.paddingStart,
+            INNER_PADDING + this.paddingTop,
+            width.toFloat() - this.paddingEnd - INNER_PADDING,
+            height.toFloat() - this.paddingBottom - INNER_PADDING)
     }
     private var rate = this.sweepDegree / MAX_VALUE
         set(value) {
@@ -178,7 +177,7 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
                 if (e.x in this.pos[0] - this.btnRadius..this.pos[0] + this.btnRadius &&
                     e.y in this.pos[1] - this.btnRadius..this.pos[1] + this.btnRadius) {
                     this.isTouchButton = true
-                    this.controllerBtnPaint.color = this.context.getColor(this.pressBtnColor)
+                    this.controllerBtnPaint.color = this.pressBtnColor
                     this.invalidate()
 
                     return true
@@ -208,7 +207,7 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 this.isTouchButton = false
-                this.controllerBtnPaint.color = this.context.getColor(this.unpressBtnColor)
+                this.controllerBtnPaint.color = this.unpressBtnColor
                 this.invalidate()
                 if (this.isAnimationRunning) {
                     this.playAnimator(this@CircularSeekBar.remainedTime)

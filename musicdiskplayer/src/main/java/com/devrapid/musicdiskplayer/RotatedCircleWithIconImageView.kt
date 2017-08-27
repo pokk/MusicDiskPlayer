@@ -54,10 +54,10 @@ class RotatedCircleWithIconImageView
     var interval by Delegates.notNull<Int>()
     var intervalRate by Delegates.notNull<Float>()
     // The variable is for [CircularSeekBar]
-    var progressColor: Int = 0xFF7F50
-    var unprogressColor: Int = 0xA9A9A9
-    var unpressBtnColor: Int = 0xFFFFFF
-    var pressBtnColor: Int = 0xD3D3D3
+    var progressColor = 0xFFFF7F50.toInt()
+    var unprogressColor = 0xFFA9A9A9.toInt()
+    var unpressBtnColor = 0xFFFFFFFF.toInt()
+    var pressBtnColor = 0xFFD3D3D3.toInt()
     var progressWidth: Float = WIDTH_OF_PROGRESS
     var btnRadius: Float = BUTTON_RADIUS
     //endregion
@@ -138,10 +138,10 @@ class RotatedCircleWithIconImageView
         }
         this.timeLabels = listOf(
             TextView(this.context).apply {
-                setTextColor(0xA9A9A9)
+                setTextColor(0xFFA9A9A9.toInt())
             },
             TextView(this.context).apply {
-                setTextColor(0xA9A9A9)
+                setTextColor(0xFFA9A9A9.toInt())
             })
         this.currProgress = 0f
     }

@@ -14,7 +14,9 @@ import com.mikhaellopez.circularimageview.CircularImageView
  * @author  jieyi
  * @since   7/4/17
  */
-open class RotatedCircleImageView: CircularImageView {
+open class RotatedCircleImageView
+@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0):
+    CircularImageView(context, attrs, defStyleAttr) {
     companion object {
         private const val ONE_ROUND_ROTATE_TIME = 10
         private const val TIME_MILLION = 1000L
@@ -39,21 +41,6 @@ open class RotatedCircleImageView: CircularImageView {
             repeatCount = Animation.INFINITE
         }
     }
-
-    //region Constructors
-    constructor(context: Context): super(context) {
-        init(context, null, 0)
-    }
-
-    constructor(context: Context, attrs: AttributeSet): super(context, attrs) {
-        init(context, attrs, 0)
-
-    }
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int): super(context, attrs, defStyleAttr) {
-        init(context, attrs, defStyleAttr)
-    }
-    //endregion
 
     fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
         context.obtainStyledAttributes(attrs, R.styleable.RotatedCircleImageView, defStyleAttr, 0).also {
