@@ -25,6 +25,7 @@
         android:layout_marginBottom="47dp"
         android:background="@color/colorPrimary"
         app:src="@drawable/sample_lady_gaga"
+        app:end_time="120"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

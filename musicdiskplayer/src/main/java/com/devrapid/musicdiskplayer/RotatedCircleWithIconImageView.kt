@@ -22,13 +22,10 @@ class RotatedCircleWithIconImageView
         private const val INNER_PADDING = 60
         private const val TEXT_OFFSET = 20
         private const val START_TIME = 0
+        private const val END_TIME = 0
         private const val WIDTH_OF_PROGRESS = 13f
         private const val BUTTON_RADIUS = 25f
     }
-
-    //region Test variable
-    var temp_endtime = 20
-    //endregion
 
     //region Variables for setting
     var iconInactive = R.drawable.ic_play_arrow
@@ -43,12 +40,12 @@ class RotatedCircleWithIconImageView
             field = value
             this.interval = this.endTime - this.startTime
         }
-    var endTime = START_TIME
+    var endTime = END_TIME
         set(value) {
             field = value
             this.interval = this.endTime - this.startTime
         }
-    var remainedTime = temp_endtime
+    var remainedTime = END_TIME - START_TIME
     var src by Delegates.notNull<Int>()
     var interval by Delegates.notNull<Int>()
     var intervalRate by Delegates.notNull<Float>()
@@ -75,13 +72,14 @@ class RotatedCircleWithIconImageView
     init {
         context.obtainStyledAttributes(attrs, R.styleable.RotatedCircleWithIconImageView, defStyleAttr, 0).also {
             this.src = it.getResourceId(R.styleable.RotatedCircleWithIconImageView_src, 0)
+            this.endTime = it.getInteger(R.styleable.RotatedCircleWithIconImageView_end_time, END_TIME)
             this.iconInactive = it.getInteger(R.styleable.RotatedCircleWithIconImageView_fore_icon, this.iconInactive)
             this.iconActive = it.getInteger(R.styleable.RotatedCircleWithIconImageView_running_icon, this.iconActive)
         }.recycle()
 
         // Setting variables.
-        this.startTime = 0
-        this.endTime = temp_endtime
+        this.startTime = START_TIME
+        this.remainedTime = this.endTime - this.startTime
         this.rotatedCircleImageView = RotatedCircleImageView(context).apply {
             setImageResource(this@RotatedCircleWithIconImageView.src)
             setPadding(INNER_PADDING, INNER_PADDING, INNER_PADDING, INNER_PADDING)
@@ -137,11 +135,11 @@ class RotatedCircleWithIconImageView
         this.timeLabels = listOf(
             TextView(this.context).apply {
                 setTextColor(0xFFA9A9A9.toInt())
-                text = "00:00"
+                text = this@RotatedCircleWithIconImageView.startTime.toTimeString()
             },
             TextView(this.context).apply {
                 setTextColor(0xFFA9A9A9.toInt())
-                text = "00:20"
+                text = this@RotatedCircleWithIconImageView.endTime.toTimeString()
             }).also { it.forEach { v -> this.addView(v) } }
         this.currProgress = 0f
     }

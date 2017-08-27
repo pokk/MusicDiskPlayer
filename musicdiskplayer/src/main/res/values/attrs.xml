@@ -6,6 +6,7 @@
 
     <declare-styleable name="RotatedCircleWithIconImageView">
         <attr name="src" format="integer"/>
+        <attr name="end_time" format="integer"/>
         <attr name="fore_icon" format="integer"/>
         <attr name="running_icon" format="integer"/>
     </declare-styleable>

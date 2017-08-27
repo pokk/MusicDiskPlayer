@@ -42,7 +42,7 @@ open class RotatedCircleImageView
         }
     }
 
-    fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
+    init {
         context.obtainStyledAttributes(attrs, R.styleable.RotatedCircleImageView, defStyleAttr, 0).also {
             this.oneRoundTime = it.getInteger(R.styleable.RotatedCircleImageView_rotate_sec,
                 ONE_ROUND_ROTATE_TIME).toLong()
