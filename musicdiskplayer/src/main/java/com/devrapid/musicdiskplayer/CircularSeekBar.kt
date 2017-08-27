@@ -7,8 +7,6 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PathMeasure
 import android.graphics.RectF
-import android.os.Build.VERSION_CODES
-import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -20,7 +18,6 @@ import android.view.animation.LinearInterpolator
  * @author  jieyi
  * @since   7/17/17
  */
-@RequiresApi(VERSION_CODES.M)
 class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0):
     View(context, attrs, defStyleAttr) {
     companion object {

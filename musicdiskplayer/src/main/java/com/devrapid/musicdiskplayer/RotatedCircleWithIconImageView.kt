@@ -19,9 +19,8 @@ class RotatedCircleWithIconImageView
 @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0):
     ViewGroup(context, attrs, defStyleAttr) {
     companion object {
-        private const val OUTER_PADDING = 30
-        private const val INNER_PADDING = OUTER_PADDING + 30
-        private const val TEXT_OFFSET = OUTER_PADDING - 10
+        private const val INNER_PADDING = 60
+        private const val TEXT_OFFSET = 20
         private const val START_TIME = 0
         private const val WIDTH_OF_PROGRESS = 13f
         private const val BUTTON_RADIUS = 25f
@@ -63,7 +62,7 @@ class RotatedCircleWithIconImageView
     //endregion
 
     //region Progress bar components.
-    lateinit var rotatedCircleImageView: RotatedCircleImageView
+    var rotatedCircleImageView: RotatedCircleImageView
         private set
     lateinit var circleSeekBar: CircularSeekBar
         private set
@@ -77,6 +76,7 @@ class RotatedCircleWithIconImageView
         context.obtainStyledAttributes(attrs, R.styleable.RotatedCircleWithIconImageView, defStyleAttr, 0).also {
             this.src = it.getResourceId(R.styleable.RotatedCircleWithIconImageView_src, 0)
             this.iconInactive = it.getInteger(R.styleable.RotatedCircleWithIconImageView_fore_icon, this.iconInactive)
+            this.iconActive = it.getInteger(R.styleable.RotatedCircleWithIconImageView_running_icon, this.iconActive)
         }.recycle()
 
         // Setting variables.
@@ -111,8 +111,6 @@ class RotatedCircleWithIconImageView
             it.unpressBtnColor = this.unpressBtnColor
             it.progressWidth = this.progressWidth
             it.btnRadius = this.btnRadius
-
-            it.setPadding(OUTER_PADDING, OUTER_PADDING, OUTER_PADDING, OUTER_PADDING)
             it.totalTime = this.endTime
             it.onProgressChanged = { progress, remainedTime ->
                 val passedTime = this.endTime - remainedTime
@@ -135,20 +133,23 @@ class RotatedCircleWithIconImageView
         this.addView(this.rotatedCircleImageView)
         this.statusIcon = ImageView(this.context).apply {
             setImageDrawable(context.getDrawable(iconInactive))
-        }
+        }.also { addView(it) }
         this.timeLabels = listOf(
             TextView(this.context).apply {
                 setTextColor(0xFFA9A9A9.toInt())
+                text = "00:00"
             },
             TextView(this.context).apply {
                 setTextColor(0xFFA9A9A9.toInt())
-            })
+                text = "00:20"
+            }).also { it.forEach { v -> this.addView(v) } }
         this.currProgress = 0f
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         // Measure all of children's width & height.
         this.measureChildren(widthMeasureSpec, heightMeasureSpec)
+        // XXX(jieyi): 8/27/17 Setting the width or height to fit the minimize.
         // Measure width & height of this view_group's layout(layout_width or layout_height will be `match_parent`
         // no matter what we set `wrap_content` or `match_patent` when we're using getDefaultSize).
         // We'll reset this method by another way for achieving `wrap_content`.
