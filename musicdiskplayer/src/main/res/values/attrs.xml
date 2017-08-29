@@ -4,22 +4,38 @@
         <attr name="rotate_sec" format="integer"/>
     </declare-styleable>
 
+    <attr name="progress_color" format="color"/>
+    <attr name="unprogress_color" format="color"/>
+    <attr name="progress_width" format="float"/>
+    <attr name="progress" format="integer"/>
+    <attr name="controller_radius" format="integer"/>
+    <attr name="controller_color" format="color"/>
+    <attr name="unpress_controller_color" format="color"/>
+
     <declare-styleable name="RotatedCircleWithIconImageView">
         <attr name="src" format="integer"/>
         <attr name="end_time" format="integer"/>
         <attr name="fore_icon" format="integer"/>
         <attr name="running_icon" format="integer"/>
+        <attr name="time_label" format="boolean"/>
+        <attr name="progress_color"/>
+        <attr name="unprogress_color"/>
+        <attr name="progress_width"/>
+        <attr name="progress"/>
+        <attr name="controller_radius"/>
+        <attr name="controller_color"/>
+        <attr name="unpress_controller_color"/>
     </declare-styleable>
 
     <declare-styleable name="CircularSeekBar">
         <attr name="start_degree" format="float"/>
         <attr name="sweep_degree" format="float"/>
-        <attr name="progress_color" format="color"/>
-        <attr name="unprogress_color" format="color"/>
-        <attr name="progress_width" format="float"/>
-        <attr name="progress" format="integer"/>
-        <attr name="controller_radius" format="integer"/>
-        <attr name="controller_color" format="color"/>
-        <attr name="unpress_controller_color" format="color"/>
+        <attr name="progress_color"/>
+        <attr name="unprogress_color"/>
+        <attr name="progress_width"/>
+        <attr name="progress"/>
+        <attr name="controller_radius"/>
+        <attr name="controller_color"/>
+        <attr name="unpress_controller_color"/>
     </declare-styleable>
 </resources>

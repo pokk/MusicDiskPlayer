@@ -30,6 +30,12 @@ class RotatedCircleWithIconImageView
     //region Variables for setting
     var iconInactive = R.drawable.ic_play_arrow
     var iconActive = R.drawable.ic_pause
+    var is_show_label = true
+        set(value) {
+            field = value
+            // TODO(jieyi): 8/30/17 Check here is nullable or not.
+            this.timeLabels.forEach { it.visibility = if (field) View.VISIBLE else View.GONE }
+        }
     var currProgress = 0f
         set(value) {
             field = value
@@ -59,13 +65,13 @@ class RotatedCircleWithIconImageView
     //endregion
 
     //region Progress bar components.
-    var rotatedCircleImageView: RotatedCircleImageView
+    var rotatedCircleImageView by Delegates.notNull<RotatedCircleImageView>()
         private set
-    lateinit var circleSeekBar: CircularSeekBar
+    var circleSeekBar by Delegates.notNull<CircularSeekBar>()
         private set
-    lateinit var statusIcon: ImageView
+    var statusIcon by Delegates.notNull<ImageView>()
         private set
-    lateinit var timeLabels: List<TextView>
+    var timeLabels by Delegates.notNull<List<TextView>>()
         private set
     //endregion
 
@@ -75,6 +81,19 @@ class RotatedCircleWithIconImageView
             this.endTime = it.getInteger(R.styleable.RotatedCircleWithIconImageView_end_time, END_TIME)
             this.iconInactive = it.getInteger(R.styleable.RotatedCircleWithIconImageView_fore_icon, this.iconInactive)
             this.iconActive = it.getInteger(R.styleable.RotatedCircleWithIconImageView_running_icon, this.iconActive)
+            this.progressWidth = it.getFloat(R.styleable.RotatedCircleWithIconImageView_progress_width,
+                this.progressWidth)
+            this.btnRadius = it.getFloat(R.styleable.RotatedCircleWithIconImageView_controller_radius, this.btnRadius)
+            this.progressColor = it.getColor(R.styleable.RotatedCircleWithIconImageView_progress_color,
+                this.progressColor)
+            this.unprogressColor = it.getColor(R.styleable.RotatedCircleWithIconImageView_unprogress_color,
+                this.unprogressColor)
+            this.pressBtnColor = it.getColor(R.styleable.RotatedCircleWithIconImageView_unpress_controller_color,
+                this.pressBtnColor)
+            this.unpressBtnColor = it.getColor(R.styleable.RotatedCircleWithIconImageView_controller_color,
+                this.unpressBtnColor)
+            this.is_show_label = it.getBoolean(R.styleable.RotatedCircleWithIconImageView_time_label,
+                this.is_show_label)
         }.recycle()
 
         // Setting variables.
