@@ -10,6 +10,7 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 
 /**
@@ -220,7 +221,9 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        this.setMeasuredDimension(widthMeasureSpec, heightMeasureSpec)
+        val square = minOf(ViewGroup.getDefaultSize(suggestedMinimumWidth, widthMeasureSpec),
+            ViewGroup.getDefaultSize(suggestedMinimumHeight, heightMeasureSpec))
+        this.setMeasuredDimension(square, square)
     }
 
     override fun onDraw(canvas: Canvas) {

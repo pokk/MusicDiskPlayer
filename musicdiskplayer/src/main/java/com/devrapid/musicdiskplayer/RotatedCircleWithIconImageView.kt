@@ -147,12 +147,12 @@ class RotatedCircleWithIconImageView
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         // Measure all of children's width & height.
         this.measureChildren(widthMeasureSpec, heightMeasureSpec)
-        // XXX(jieyi): 8/27/17 Setting the width or height to fit the minimize.
         // Measure width & height of this view_group's layout(layout_width or layout_height will be `match_parent`
         // no matter what we set `wrap_content` or `match_patent` when we're using getDefaultSize).
         // We'll reset this method by another way for achieving `wrap_content`.
-        this.setMeasuredDimension(getDefaultSize(suggestedMinimumWidth, widthMeasureSpec),
+        val square = minOf(getDefaultSize(suggestedMinimumWidth, widthMeasureSpec),
             getDefaultSize(suggestedMinimumHeight, heightMeasureSpec))
+        this.setMeasuredDimension(square, square)
     }
 
     @SuppressLint("DrawAllocation")

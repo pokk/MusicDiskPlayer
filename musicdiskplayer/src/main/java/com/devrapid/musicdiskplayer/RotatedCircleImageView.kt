@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import com.mikhaellopez.circularimageview.CircularImageView
@@ -68,6 +69,14 @@ open class RotatedCircleImageView
             }
             this@RotatedCircleImageView.onClickEvent?.let { it(this@RotatedCircleImageView) }
         }
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+
+        val square = minOf(ViewGroup.getDefaultSize(suggestedMinimumWidth, widthMeasureSpec),
+            ViewGroup.getDefaultSize(suggestedMinimumHeight, heightMeasureSpec))
+        this.setMeasuredDimension(square, square)
     }
 
     override fun onTouchEvent(e: MotionEvent): Boolean {
