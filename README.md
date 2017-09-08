@@ -47,13 +47,13 @@ The parameters of this player view are allowed to control as below:
 
 #### The description of the variables.
 
-- progress_width: the width of the progress bar.
-- progress: current progress percent. The range is between `0 ~ 100`.
-- controller_radius: the radius of the progress controller.
-- end_time: due to `progress` is according to `end time`, this should be set together with `progress`. Unit is `Second`.
-- fore_icon: the icon will appear when the player is `stop` state.
-- running_icon: the icon will appear when the player is `running` state.
-- time_label: `true` → show the time label; `false` → hide the time label.
+- **_progress_width_**: the width of the progress bar.
+- **_progress_**: current progress percent. The range is between `0 ~ 100`.
+- **_controller_radius_**: the radius of the progress controller.
+- **_end_time_**: due to `progress` is according to `end time`, this should be set together with `progress`. Unit is `Second`.
+- **_fore_icon_**: the icon will appear when the player is `stop` state.
+- **_running_icon_**: the icon will appear when the player is `running` state.
+- **_time_label_**: `true` → show the time label; `false` → hide the time label.
 
 This is also allowed change by programming! 😄
 
