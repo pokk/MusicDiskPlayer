@@ -43,7 +43,7 @@ The parameters of this player view are allowed to control as below:
     app:time_label="true"/>
 ```
 
-#### The description of the variables.
+### ⭐ The description of the variables.
 
 - **_progress_width_**: the width of the progress bar.
 - **_progress_**: current progress percent. The range is between `0 ~ 100`.
@@ -78,6 +78,8 @@ compile 'com.devrapid.jieyi:musicdiskplayer:0.0.4'
 
 # Feature
 
+- [ ] Customize the label color.
+
 # License
 
 ```
@@ -87,11 +89,11 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+   http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-either express or implied. See the License for the specific
-language governing permissions and limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 ```
