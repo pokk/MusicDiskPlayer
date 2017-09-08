@@ -8,7 +8,7 @@ Let's see the result is faster than I explain. :)
 
 # Demo
 
-<img src="https://github.com/pokk/MusicDiskPlayer/raw/master/gif/music_disk_player.gif" data-canonical-src="https://github.com/pokk/MusicDiskPlayer/raw/master/gif/music_disk_player.gif" width="200" height="200" />
+<img src="https://github.com/pokk/MusicDiskPlayer/raw/master/gif/music_disk_player.gif" width="300" height="300" />
 
 # How to use
 
