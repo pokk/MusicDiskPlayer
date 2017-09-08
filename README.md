@@ -8,9 +8,71 @@ Let's see the result is faster than I explain. :)
 
 # How to use
 
-# Gradle
+The simplest way is as below:
 
-# Maven
+```xml
+<com.devrapid.musicdiskplayer.RotatedCircleWithIconImageView
+    android:id="@+id/rotatedCircleImageView"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    app:src="@drawable/sample_lady_gaga"/>
+```
+
+The img source is a necessary parameter; otherwise, it won't work.
+
+The parameters of this player view are allowed to control as below:
+
+```xml
+<com.devrapid.musicdiskplayer.RotatedCircleWithIconImageView
+    android:id="@+id/rotatedCircleImageView"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    app:src="@drawable/sample_lady_gaga"
+    app:progress_color="#2D3BFF"
+    app:unprogress_color="#AFE2FF"
+    app:progress_width="15"
+    app:progress="40"
+    app:controller_radius="20"
+    app:controller_color="#9F9F9F"
+    app:unpress_controller_color="#FFFFFF"
+    app:end_time="120"
+    app:fore_icon="@drawable/play_icon"
+    app:running_icon="@drawable/pause_icon"
+    app:time_label="true"/>
+```
+
+#### The description of the variables.
+
+- progress_width: the width of the progress bar.
+- progress: current progress percent. The range is between `0 ~ 100`.
+- controller_radius: the radius of the progress controller.
+- end_time: due to `progress` is according to `end time`, this should be set together with `progress`. Unit is `Second`.
+- fore_icon: the icon will appear when the player is `stop` state.
+- running_icon: the icon will appear when the player is `running` state.
+- time_label: `true` → show the time label; `false` → hide the time label.
+
+This is also allowed change by programming! 😄
+
+# Using MusicDiskPlayer
+
+## Gradle
+
+It's easy to import it, you just put them into your gradle file.
+
+```gradle
+compile 'com.devrapid.jieyi:musicdiskplayer:0.0.4'
+```
+
+## Maven
+
+```maven
+<dependency>
+  <groupId>com.devrapid.jieyi</groupId>
+  <artifactId>musicdiskplayer</artifactId>
+  <version>0.0.4</version>
+  <type>pom</type>
+</dependency>
+```
 
 # Feature
 
