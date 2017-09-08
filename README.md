@@ -1,7 +1,7 @@
 # MusicDiskPlayer
 
-[![GitHub release](https://img.shields.io/github/release/pokk/MusicDiskPlayer.svg?style=flat-square)](https://github.com/pokk/AdaptiveRecyclerView)
-[![license](https://img.shields.io/github/license/pokk/MusicDiskPlayer.svg?style=flat-square)](https://github.com/pokk/AdaptiveRecyclerView)
+[![GitHub release](https://img.shields.io/github/release/pokk/MusicDiskPlayer.svg?style=flat-square)](https://github.com/pokk/MusicDiskPlayer)
+[![license](https://img.shields.io/github/license/pokk/MusicDiskPlayer.svg?style=flat-square)](https://github.com/pokk/MusicDiskPlayer)
 
 
 This library provides a rotated circle music player view. You could customize the vary variables by yourself.
