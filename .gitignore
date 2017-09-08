@@ -56,3 +56,14 @@ freeline.py
 freeline/
 freeline_project_description.json
 
+.idea/inspectionProfiles/
+.idea/markdown-navigator.xml
+.idea/markdown-navigator/
+.idea/misc.xml
+.idea/modules.xml
+.idea/runConfigurations.xml
+.idea/vcs.xml
+
+gradle/
+gradlew
+gradlew.bat

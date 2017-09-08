@@ -33,7 +33,6 @@ class RotatedCircleWithIconImageView
     var is_show_label = true
         set(value) {
             field = value
-            // TODO(jieyi): 8/30/17 Check here is nullable or not.
             this.timeLabels.forEach { it.visibility = if (field) View.VISIBLE else View.GONE }
         }
     var currProgress = 0f
