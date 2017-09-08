@@ -8,7 +8,7 @@ Let's see the result is faster than I explain. :)
 
 # Demo
 
-![MusicDiskPlayer](https://github.com/pokk/MusicDiskPlayer/raw/master/gif/music_disk_player.gif)
+![MusicDiskPlayer](https://github.com/pokk/MusicDiskPlayer/raw/master/gif/music_disk_player.gif?s=200)
 
 # How to use
 
