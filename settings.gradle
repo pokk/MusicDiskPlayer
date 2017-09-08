@@ -1,1 +1,1 @@
-include ':app', ':musicdiskplayer'
+include ':sample', ':musicdiskplayer'

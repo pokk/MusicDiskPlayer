@@ -92,8 +92,6 @@ class RotatedCircleWithIconImageView
                 this.pressBtnColor)
             this.unpressBtnColor = it.getColor(R.styleable.RotatedCircleWithIconImageView_controller_color,
                 this.unpressBtnColor)
-            this.is_show_label = it.getBoolean(R.styleable.RotatedCircleWithIconImageView_time_label,
-                this.is_show_label)
         }.recycle()
 
         // Setting variables.
@@ -161,6 +159,12 @@ class RotatedCircleWithIconImageView
                 text = this@RotatedCircleWithIconImageView.endTime.toTimeString()
             }).also { it.forEach { v -> this.addView(v) } }
         this.currProgress = 0f
+
+        // NOTE: is_show_label needs to process after `timeLabels` was initialed.
+        context.obtainStyledAttributes(attrs, R.styleable.RotatedCircleWithIconImageView, defStyleAttr, 0).also {
+            this.is_show_label = it.getBoolean(R.styleable.RotatedCircleWithIconImageView_time_label,
+                this.is_show_label)
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
