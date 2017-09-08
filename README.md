@@ -6,6 +6,10 @@ vary variables by yourself.
 
 Let's see the result is faster than I explain. :)
 
+# Demo
+
+![MusicDiskPlayer](https://github.com/pokk/MusicDiskPlayer/raw/master/gif/music_disk_player.gif)
+
 # How to use
 
 The simplest way is as below:
