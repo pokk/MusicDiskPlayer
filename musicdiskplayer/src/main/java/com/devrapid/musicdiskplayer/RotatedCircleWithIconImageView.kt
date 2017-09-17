@@ -30,30 +30,32 @@ class RotatedCircleWithIconImageView
     //region Variables for setting
     var iconInactive = R.drawable.ic_play_arrow
     var iconActive = R.drawable.ic_pause
-    var is_show_label = true
+    var isShowLabel = true
         set(value) {
             field = value
-            this.timeLabels.forEach { it.visibility = if (field) View.VISIBLE else View.GONE }
+            timeLabels.forEach { it.visibility = if (field) View.VISIBLE else View.GONE }
         }
     var currProgress = 0f
         set(value) {
             field = value
-            this.intervalRate = this.currProgress / this.interval
+            intervalRate = currProgress / interval
         }
     var startTime = START_TIME
         set(value) {
             field = value
-            this.interval = this.endTime - this.startTime
+            interval = endTime - startTime
         }
     var endTime = END_TIME
         set(value) {
             field = value
-            this.interval = this.endTime - this.startTime
+            interval = endTime - startTime
         }
     var remainedTime = END_TIME - START_TIME
     var src by Delegates.notNull<Int>()
     var interval by Delegates.notNull<Int>()
     var intervalRate by Delegates.notNull<Float>()
+    /** For clicking running button. */
+    var onClickEvent: ((view: RotatedCircleWithIconImageView, isPaused: Boolean) -> Unit)? = null
     // The variable is for [CircularSeekBar]
     var progressColor = 0xFFFF7F50.toInt()
     var unprogressColor = 0xFFA9A9A9.toInt()
@@ -64,125 +66,120 @@ class RotatedCircleWithIconImageView
     //endregion
 
     //region Progress bar components.
-    var rotatedCircleImageView by Delegates.notNull<RotatedCircleImageView>()
-        private set
     var circleSeekBar by Delegates.notNull<CircularSeekBar>()
         private set
     var statusIcon by Delegates.notNull<ImageView>()
         private set
     var timeLabels by Delegates.notNull<List<TextView>>()
         private set
+    private var rotatedCircleImageView by Delegates.notNull<RotatedCircleImageView>()
     //endregion
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.RotatedCircleWithIconImageView, defStyleAttr, 0).also {
-            this.src = it.getResourceId(R.styleable.RotatedCircleWithIconImageView_src, 0)
-            this.endTime = it.getInteger(R.styleable.RotatedCircleWithIconImageView_end_time, END_TIME)
-            this.iconInactive = it.getInteger(R.styleable.RotatedCircleWithIconImageView_fore_icon, this.iconInactive)
-            this.iconActive = it.getInteger(R.styleable.RotatedCircleWithIconImageView_running_icon, this.iconActive)
-            this.progressWidth = it.getFloat(R.styleable.RotatedCircleWithIconImageView_progress_width,
-                this.progressWidth)
-            this.btnRadius = it.getFloat(R.styleable.RotatedCircleWithIconImageView_controller_radius, this.btnRadius)
-            this.progressColor = it.getColor(R.styleable.RotatedCircleWithIconImageView_progress_color,
-                this.progressColor)
-            this.unprogressColor = it.getColor(R.styleable.RotatedCircleWithIconImageView_unprogress_color,
-                this.unprogressColor)
-            this.pressBtnColor = it.getColor(R.styleable.RotatedCircleWithIconImageView_unpress_controller_color,
-                this.pressBtnColor)
-            this.unpressBtnColor = it.getColor(R.styleable.RotatedCircleWithIconImageView_controller_color,
-                this.unpressBtnColor)
+        context.obtainStyledAttributes(attrs, R.styleable.RotatedCircleWithIconImageView, defStyleAttr, 0).apply {
+            src = getResourceId(R.styleable.RotatedCircleWithIconImageView_src, 0)
+            endTime = getInteger(R.styleable.RotatedCircleWithIconImageView_end_time, END_TIME)
+            iconInactive = getInteger(R.styleable.RotatedCircleWithIconImageView_fore_icon, iconInactive)
+            iconActive = getInteger(R.styleable.RotatedCircleWithIconImageView_running_icon, iconActive)
+            progressWidth = getFloat(R.styleable.RotatedCircleWithIconImageView_progress_width, progressWidth)
+            btnRadius = getFloat(R.styleable.RotatedCircleWithIconImageView_controller_radius, btnRadius)
+            progressColor = getColor(R.styleable.RotatedCircleWithIconImageView_progress_color, progressColor)
+            unprogressColor = getColor(R.styleable.RotatedCircleWithIconImageView_unprogress_color, unprogressColor)
+            pressBtnColor = getColor(R.styleable.RotatedCircleWithIconImageView_unpress_controller_color, pressBtnColor)
+            unpressBtnColor = getColor(R.styleable.RotatedCircleWithIconImageView_controller_color, unpressBtnColor)
         }.recycle()
 
         // Setting variables.
-        this.startTime = START_TIME
-        this.remainedTime = this.endTime - this.startTime
-        this.rotatedCircleImageView = RotatedCircleImageView(context).apply {
-            setImageResource(this@RotatedCircleWithIconImageView.src)
+        startTime = START_TIME
+        remainedTime = endTime - startTime
+        rotatedCircleImageView = RotatedCircleImageView(context).apply {
+            setImageResource(src)
             setPadding(INNER_PADDING, INNER_PADDING, INNER_PADDING, INNER_PADDING)
             setShadowRadius(0f)
             setBorderWidth(0f)
             onClickEvent = {
-                val icon = if (this.isPauseState) {
-                    this@RotatedCircleWithIconImageView.circleSeekBar.stopAnimator()
-                    this@RotatedCircleWithIconImageView.iconInactive
+                val icon = if (isPauseState) {
+                    circleSeekBar.stopAnimator()
+                    iconInactive
                 }
                 else {
-                    this@RotatedCircleWithIconImageView.circleSeekBar.playAnimator(this@RotatedCircleWithIconImageView.remainedTime.toLong())
-                    this@RotatedCircleWithIconImageView.iconActive
+                    circleSeekBar.playAnimator(remainedTime.toLong())
+                    iconActive
                 }
                 // Changing the icon by the state.
-                this@RotatedCircleWithIconImageView.statusIcon.setImageResource(icon)
+                statusIcon.setImageResource(icon)
                 // Changing the state dependence state.
-                this.isPauseState.not()
+                isPauseState.not()
+                this@RotatedCircleWithIconImageView.onClickEvent?.
+                    invoke(this@RotatedCircleWithIconImageView, isPauseState)
             }
         }
-        this.circleSeekBar = (attrs?.let {
+        circleSeekBar = (attrs?.let {
             CircularSeekBar(context, attrs, defStyleAttr)
         } ?: CircularSeekBar(context)).also {
-            it.progressColor = this.progressColor
-            it.unprogressColor = this.unprogressColor
-            it.pressBtnColor = this.pressBtnColor
-            it.unpressBtnColor = this.unpressBtnColor
-            it.progressWidth = this.progressWidth
-            it.btnRadius = this.btnRadius
-            it.totalTime = this.endTime
+            it.progressColor = progressColor
+            it.unprogressColor = unprogressColor
+            it.pressBtnColor = pressBtnColor
+            it.unpressBtnColor = unpressBtnColor
+            it.progressWidth = progressWidth
+            it.btnRadius = btnRadius
+            it.totalTime = endTime
             it.onProgressChanged = { progress, remainedTime ->
-                val passedTime = this.endTime - remainedTime
-                val accordingProcessTime = endTime - progress * this.endTime / 100
+                val passedTime = endTime - remainedTime
+                val accordingProcessTime = endTime - progress * endTime / 100
 
                 this.remainedTime = remainedTime
                 // Fixed the time isn't correct when clicking the non-stop the button of play and stop.
                 if (accordingProcessTime != remainedTime) {
                     this.remainedTime = accordingProcessTime
                 }
-                this.timeLabels[0].text = passedTime.toTimeString()
+                timeLabels[0].text = passedTime.toTimeString()
             }
             it.onProgressFinished = {
-                this.rotatedCircleImageView.stop()
-                this.statusIcon.setImageResource(this.iconInactive)
+                rotatedCircleImageView.stop()
+                statusIcon.setImageResource(iconInactive)
             }
         }
         // Add children view into this group.
-        this.addView(this.circleSeekBar)
-        this.addView(this.rotatedCircleImageView)
-        this.statusIcon = ImageView(this.context).apply {
+        addView(circleSeekBar)
+        addView(rotatedCircleImageView)
+        statusIcon = ImageView(context).apply {
             setImageDrawable(context.getDrawable(iconInactive))
         }.also { addView(it) }
-        this.timeLabels = listOf(
-            TextView(this.context).apply {
+        timeLabels = listOf(
+            TextView(context).apply {
                 setTextColor(0xFFA9A9A9.toInt())
-                text = this@RotatedCircleWithIconImageView.startTime.toTimeString()
+                text = startTime.toTimeString()
             },
-            TextView(this.context).apply {
+            TextView(context).apply {
                 setTextColor(0xFFA9A9A9.toInt())
-                text = this@RotatedCircleWithIconImageView.endTime.toTimeString()
-            }).also { it.forEach { v -> this.addView(v) } }
-        this.currProgress = 0f
+                text = endTime.toTimeString()
+            }).also { it.forEach { v -> addView(v) } }
+        currProgress = 0f
 
         // NOTE: is_show_label needs to process after `timeLabels` was initialed.
-        context.obtainStyledAttributes(attrs, R.styleable.RotatedCircleWithIconImageView, defStyleAttr, 0).also {
-            this.is_show_label = it.getBoolean(R.styleable.RotatedCircleWithIconImageView_time_label,
-                this.is_show_label)
+        context.obtainStyledAttributes(attrs, R.styleable.RotatedCircleWithIconImageView, defStyleAttr, 0).apply {
+            isShowLabel = getBoolean(R.styleable.RotatedCircleWithIconImageView_time_label, isShowLabel)
         }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         // Measure all of children's width & height.
-        this.measureChildren(widthMeasureSpec, heightMeasureSpec)
+        measureChildren(widthMeasureSpec, heightMeasureSpec)
         // Measure width & height of this view_group's layout(layout_width or layout_height will be `match_parent`
         // no matter what we set `wrap_content` or `match_patent` when we're using getDefaultSize).
         // We'll reset this method by another way for achieving `wrap_content`.
         val square = minOf(getDefaultSize(suggestedMinimumWidth, widthMeasureSpec),
             getDefaultSize(suggestedMinimumHeight, heightMeasureSpec))
-        this.setMeasuredDimension(square, square)
+        setMeasuredDimension(square, square)
     }
 
     @SuppressLint("DrawAllocation")
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        val w = this.width
-        val h = this.height
+        val w = width
+        val h = height
 
-        this.forEachChildWithIndex { index, view ->
+        forEachChildWithIndex { index, view ->
             val childW = view.measuredWidth
             val childH = view.measuredHeight
             val px = pivotX.toInt()
@@ -205,6 +202,12 @@ class RotatedCircleWithIconImageView
 
             view.layout(l, t, r, b)
         }
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+
+        onClickEvent = null
     }
 
     data class Rect(val l: Int, val t: Int, val r: Int, val b: Int)

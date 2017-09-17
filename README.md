@@ -66,7 +66,7 @@ This is also allowed change by programming! 😄
 It's easy to import it, you just put them into your gradle file.
 
 ```gradle
-compile 'com.devrapid.jieyi:musicdiskplayer:0.1.0'
+compile 'com.devrapid.jieyi:musicdiskplayer:0.1.1'
 ```
 
 ## Maven
@@ -75,7 +75,7 @@ compile 'com.devrapid.jieyi:musicdiskplayer:0.1.0'
 <dependency>
   <groupId>com.devrapid.jieyi</groupId>
   <artifactId>musicdiskplayer</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <type>pom</type>
 </dependency>
 ```

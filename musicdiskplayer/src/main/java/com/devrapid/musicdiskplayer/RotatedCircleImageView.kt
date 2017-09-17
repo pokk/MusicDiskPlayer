@@ -38,20 +38,19 @@ open class RotatedCircleImageView
     private val rotateAnimator by lazy {
         ObjectAnimator.ofFloat(this, "rotation", 0f, A_CIRCLE_ANGEL).apply {
             interpolator = LinearInterpolator()
-            duration = this@RotatedCircleImageView.oneRoundTime
+            duration = oneRoundTime
             repeatCount = Animation.INFINITE
         }
     }
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.RotatedCircleImageView, defStyleAttr, 0).also {
-            this.oneRoundTime = it.getInteger(R.styleable.RotatedCircleImageView_rotate_sec,
-                ONE_ROUND_ROTATE_TIME).toLong()
+            oneRoundTime = it.getInteger(R.styleable.RotatedCircleImageView_rotate_sec, ONE_ROUND_ROTATE_TIME).toLong()
         }.recycle()
 
-        this.setOnClickListener {
-            this@RotatedCircleImageView.rotateAnimator.let {
-                this@RotatedCircleImageView.isPauseState = when {
+        setOnClickListener {
+            rotateAnimator.let {
+                isPauseState = when {
                     !it.isStarted -> {
                         it.start()
                         false
@@ -67,7 +66,7 @@ open class RotatedCircleImageView
                     else -> true
                 }
             }
-            this@RotatedCircleImageView.onClickEvent?.let { it(this@RotatedCircleImageView) }
+            onClickEvent?.let { it(this@RotatedCircleImageView) }
         }
     }
 
@@ -76,17 +75,17 @@ open class RotatedCircleImageView
 
         val square = minOf(ViewGroup.getDefaultSize(suggestedMinimumWidth, widthMeasureSpec),
             ViewGroup.getDefaultSize(suggestedMinimumHeight, heightMeasureSpec))
-        this.setMeasuredDimension(square, square)
+        setMeasuredDimension(square, square)
     }
 
     override fun onTouchEvent(e: MotionEvent): Boolean {
         when (e.action) {
         // Checking the clicking is inside of circle imageview.
-            MotionEvent.ACTION_DOWN -> return this.isInCircleRange(e.x, e.y)
+            MotionEvent.ACTION_DOWN -> return isInCircleRange(e.x, e.y)
             MotionEvent.ACTION_UP -> {
-                if (this.isInCircleRange(e.x, e.y)) {
+                if (isInCircleRange(e.x, e.y)) {
                     // After confirming the clicking is inside of the image.
-                    this.performClick()
+                    performClick()
 
                     return true
                 }
@@ -99,7 +98,7 @@ open class RotatedCircleImageView
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
 
-        this.onClickEvent = null
+        onClickEvent = null
     }
 
     /**
@@ -107,25 +106,25 @@ open class RotatedCircleImageView
      */
     fun start() {
         // According to the state then start the animation.
-        if (!this.rotateAnimator.isStarted) {
-            this.rotateAnimator.start()
+        if (!rotateAnimator.isStarted) {
+            rotateAnimator.start()
         }
-        else if (this.rotateAnimator.isPaused) {
-            this.rotateAnimator.resume()
+        else if (rotateAnimator.isPaused) {
+            rotateAnimator.resume()
         }
         else {
             return
         }
-        this.isPauseState = false
+        isPauseState = false
     }
 
     /**
      * Stop the rotating animation of the circle image.
      */
     fun stop() {
-        if (this.rotateAnimator.isRunning) {
-            this.rotateAnimator.pause()
-            this.isPauseState = true
+        if (rotateAnimator.isRunning) {
+            rotateAnimator.pause()
+            isPauseState = true
         }
     }
 
@@ -137,7 +136,7 @@ open class RotatedCircleImageView
      * @return [true] if the position of clicking is in the circle range ; otherwise [false].
      */
     private fun isInCircleRange(x: Float, y: Float): Boolean =
-        this.width / 2 > this.distance(x, y, this.pivotX, this.pivotY)
+        width / 2 > distance(x, y, pivotX, pivotY)
 
     /**
      * Calculating the distance between two positions.
