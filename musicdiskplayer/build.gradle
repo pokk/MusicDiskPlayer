@@ -27,7 +27,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:25.4.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    debugImplementation "com.devrapid.jieyi:kotlinknifer:1.0.13"
 
     implementation "com.mikhaellopez:circularimageview:3.0.2"
 }
