@@ -49,6 +49,10 @@ class RotatedCircleWithIconImageView
         set(value) {
             field = value
             interval = endTime - startTime
+            if (raisedInitFlag) {
+                timeLabels[1].text = field.toTimeString()
+                circleSeekBar.totalTime = field
+            }
         }
     var remainedTime = END_TIME - START_TIME
     var src by Delegates.notNull<Int>()
@@ -56,13 +60,14 @@ class RotatedCircleWithIconImageView
     var intervalRate by Delegates.notNull<Float>()
     /** For clicking running button. */
     var onClickEvent: ((view: RotatedCircleWithIconImageView, isPaused: Boolean) -> Unit)? = null
+    var onChangeTime: ((view: RotatedCircleWithIconImageView, currTime: Int) -> Unit)? = null
     // The variable is for [CircularSeekBar]
     var progressColor = 0xFFFF7F50.toInt()
     var unprogressColor = 0xFFA9A9A9.toInt()
     var unpressBtnColor = 0xFFFFFFFF.toInt()
     var pressBtnColor = 0xFFD3D3D3.toInt()
-    var progressWidth: Float = WIDTH_OF_PROGRESS
-    var btnRadius: Float = BUTTON_RADIUS
+    var progressWidth = WIDTH_OF_PROGRESS
+    var btnRadius = BUTTON_RADIUS
     //endregion
 
     //region Progress bar components.
@@ -74,6 +79,9 @@ class RotatedCircleWithIconImageView
         private set
     private var rotatedCircleImageView by Delegates.notNull<RotatedCircleImageView>()
     //endregion
+
+    private var currTime = 0  // For keeping passed time and calling callback or not.
+    private var raisedInitFlag = false
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.RotatedCircleWithIconImageView, defStyleAttr, 0).apply {
@@ -98,20 +106,9 @@ class RotatedCircleWithIconImageView
             setShadowRadius(0f)
             setBorderWidth(0f)
             onClickEvent = {
-                val icon = if (isPauseState) {
-                    circleSeekBar.stopAnimator()
-                    iconInactive
-                }
-                else {
-                    circleSeekBar.playAnimator(remainedTime.toLong())
-                    iconActive
-                }
-                // Changing the icon by the state.
-                statusIcon.setImageResource(icon)
-                // Changing the state dependence state.
-                isPauseState.not()
                 this@RotatedCircleWithIconImageView.onClickEvent?.
-                    invoke(this@RotatedCircleWithIconImageView, isPauseState)
+                    invoke(this@RotatedCircleWithIconImageView, isPauseState) ?:
+                    if (isPauseState) this@RotatedCircleWithIconImageView.stop() else this@RotatedCircleWithIconImageView.start()
             }
         }
         circleSeekBar = (attrs?.let {
@@ -134,6 +131,11 @@ class RotatedCircleWithIconImageView
                     this.remainedTime = accordingProcessTime
                 }
                 timeLabels[0].text = passedTime.toTimeString()
+                // Callback only changing time.
+                if (passedTime != currTime) {
+                    onChangeTime?.invoke(this@RotatedCircleWithIconImageView, passedTime)
+                }
+                currTime = passedTime
             }
             it.onProgressFinished = {
                 rotatedCircleImageView.stop()
@@ -161,6 +163,8 @@ class RotatedCircleWithIconImageView
         context.obtainStyledAttributes(attrs, R.styleable.RotatedCircleWithIconImageView, defStyleAttr, 0).apply {
             isShowLabel = getBoolean(R.styleable.RotatedCircleWithIconImageView_time_label, isShowLabel)
         }
+
+        raisedInitFlag = true
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -208,7 +212,26 @@ class RotatedCircleWithIconImageView
         super.onDetachedFromWindow()
 
         onClickEvent = null
+        onChangeTime = null
     }
+
+    fun start() {
+        circleSeekBar.playAnimator(remainedTime.toLong())
+        // Changing the icon by the state.
+        statusIcon.setImageResource(iconActive)
+        // Changing the state dependence state.
+        rotatedCircleImageView.isPauseState.not()
+    }
+
+    fun stop() {
+        circleSeekBar.stopAnimator()
+        // Changing the icon by the state.
+        statusIcon.setImageResource(iconInactive)
+        // Changing the state dependence state.
+        rotatedCircleImageView.isPauseState.not()
+    }
+
+    fun loading() {}
 
     data class Rect(val l: Int, val t: Int, val r: Int, val b: Int)
 
