@@ -66,7 +66,7 @@ This is also allowed change by programming! 😄
 It's easy to import it, you just put them into your gradle file.
 
 ```gradle
-compile 'com.devrapid.jieyi:musicdiskplayer:0.1.1'
+compile 'com.devrapid.jieyi:musicdiskplayer:0.1.2'
 ```
 
 ## Maven
