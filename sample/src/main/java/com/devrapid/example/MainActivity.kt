@@ -1,9 +1,10 @@
-package com.devrapid.Example
+package com.devrapid.example
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.devrapid.kotlinknifer.logw
 import kotlinx.android.synthetic.main.activity_main.btn_click
+import kotlinx.android.synthetic.main.activity_main.btn_else
 import kotlinx.android.synthetic.main.activity_main.rotatedCircleImageView
 
 class MainActivity: AppCompatActivity() {
@@ -27,6 +28,9 @@ class MainActivity: AppCompatActivity() {
             logw("!!!!!!!!!!!")
             time += 10
             rotatedCircleImageView.endTime = time
+        }
+        btn_else.setOnClickListener {
+            rotatedCircleImageView.startTime += 5
         }
     }
 }
