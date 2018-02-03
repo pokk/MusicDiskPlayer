@@ -13,6 +13,8 @@ class MainActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        rotatedCircleImageView.startTime = 44
+
         rotatedCircleImageView.onClickEvent = { view, isPaused ->
             if (isPaused)
                 view.stop()

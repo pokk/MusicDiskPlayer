@@ -284,6 +284,10 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
     private fun calculateTouchDegree(posX: Float, posY: Float): Double {
         val x = posX - pivotX.toDouble()
         val y = posY - pivotY.toDouble()
+
+        println("$y  $x")
+        println(Math.atan2(y, x))
+        println(startDegree / 180)
         // Let's angel in 360°
         val angle = (Math.toDegrees(Math.atan2(y, x) - startDegree / 180 * Math.PI) + 360) % 360
 

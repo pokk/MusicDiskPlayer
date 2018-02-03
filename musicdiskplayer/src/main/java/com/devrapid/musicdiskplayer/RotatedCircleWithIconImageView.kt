@@ -16,7 +16,7 @@ import kotlin.properties.Delegates
  * @since   6/19/17
  */
 class RotatedCircleWithIconImageView
-@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0):
+@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     ViewGroup(context, attrs, defStyleAttr) {
     companion object {
         private const val INNER_PADDING = 60
@@ -44,6 +44,15 @@ class RotatedCircleWithIconImageView
         set(value) {
             field = value
             interval = endTime - startTime
+            if (raisedInitFlag) {
+                // FIXME(jieyi): 2018/02/04 couldn't set the correct time.
+                circleSeekBar.progress = startTime.toDouble() / endTime.toDouble() * 100
+//                circleSeekBar.progress = currProgress.toDouble()
+                start()
+                stop()
+//                circleSeekBar.playAnimator(interval.toLong())
+//                circleSeekBar.stopAnimator()
+            }
         }
     var endTime = END_TIME
         set(value) {
@@ -106,9 +115,9 @@ class RotatedCircleWithIconImageView
             setShadowRadius(0f)
             setBorderWidth(0f)
             onClickEvent = {
-                this@RotatedCircleWithIconImageView.onClickEvent?.
-                    invoke(this@RotatedCircleWithIconImageView, isPauseState) ?:
-                    if (isPauseState) this@RotatedCircleWithIconImageView.stop() else this@RotatedCircleWithIconImageView.start()
+                this@RotatedCircleWithIconImageView.onClickEvent?.invoke(this@RotatedCircleWithIconImageView,
+                                                                         isPauseState)
+                ?: if (isPauseState) this@RotatedCircleWithIconImageView.stop() else this@RotatedCircleWithIconImageView.start()
             }
         }
         circleSeekBar = (attrs?.let {
@@ -174,7 +183,7 @@ class RotatedCircleWithIconImageView
         // no matter what we set `wrap_content` or `match_patent` when we're using getDefaultSize).
         // We'll reset this method by another way for achieving `wrap_content`.
         val square = minOf(getDefaultSize(suggestedMinimumWidth, widthMeasureSpec),
-            getDefaultSize(suggestedMinimumHeight, heightMeasureSpec))
+                           getDefaultSize(suggestedMinimumHeight, heightMeasureSpec))
         setMeasuredDimension(square, square)
     }
 
@@ -194,9 +203,9 @@ class RotatedCircleWithIconImageView
                 0 -> Rect(0, 0, childW, childH)
             // 1: Inner image view and 2: Status icon.
                 1 -> Rect(px - childW / 2 + INNER_PADDING,
-                    py - childH / 2 + INNER_PADDING,
-                    px + childW / 2 - INNER_PADDING,
-                    py + childH / 2 - INNER_PADDING)
+                          py - childH / 2 + INNER_PADDING,
+                          px + childW / 2 - INNER_PADDING,
+                          py + childH / 2 - INNER_PADDING)
                 2 -> Rect(px - childW / 2, py - childH / 2, px + childW / 2, py + childH / 2)
             // Two text views.
                 3 -> Rect(w / 4 - childW / 2, (h - childH - TEXT_OFFSET), w / 4 + childW / 2, (h - TEXT_OFFSET))
