@@ -25,7 +25,7 @@ open class RotatedCircleImageView
     }
 
     //region Variables of setting
-    var onClickEvent: ((RotatedCircleImageView) -> Unit)? = null
+    var onClickCallback: ((RotatedCircleImageView) -> Unit)? = null
     // Basically this's that controlling the rotating speed.
     var oneRoundTime = ONE_ROUND_ROTATE_TIME.toLong()
         private set(value) {
@@ -66,7 +66,7 @@ open class RotatedCircleImageView
                     else -> true
                 }
             }
-            onClickEvent?.let { it(this@RotatedCircleImageView) }
+            onClickCallback?.let { it(this@RotatedCircleImageView) }
         }
     }
 
@@ -98,7 +98,7 @@ open class RotatedCircleImageView
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
 
-        onClickEvent = null
+        onClickCallback = null
     }
 
     /**

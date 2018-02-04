@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import kotlin.properties.Delegates
 
+@Suppress("NOTHING_TO_INLINE")
 /**
  * Circle image view with shadow.
  *
@@ -114,10 +115,10 @@ class RotatedCircleWithIconImageView
             setPadding(INNER_PADDING, INNER_PADDING, INNER_PADDING, INNER_PADDING)
             setShadowRadius(0f)
             setBorderWidth(0f)
-            onClickEvent = {
+            onClickCallback = {
                 this@RotatedCircleWithIconImageView.onClickEvent?.invoke(this@RotatedCircleWithIconImageView,
                                                                          isPauseState)
-                ?: if (isPauseState) this@RotatedCircleWithIconImageView.stop() else this@RotatedCircleWithIconImageView.start()
+                if (isPauseState) this@RotatedCircleWithIconImageView.stop() else this@RotatedCircleWithIconImageView.start()
             }
         }
         circleSeekBar = (attrs?.let {
