@@ -2,12 +2,11 @@ package com.devrapid.example
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.devrapid.kotlinknifer.logw
 import kotlinx.android.synthetic.main.activity_main.btn_click
 import kotlinx.android.synthetic.main.activity_main.btn_else
 import kotlinx.android.synthetic.main.activity_main.rotatedCircleImageView
 
-class MainActivity: AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     var time = 100
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,13 +20,10 @@ class MainActivity: AppCompatActivity() {
             else
                 view.start()
 
-            logw("hello world")
         }
-        rotatedCircleImageView.onChangeTime = { view, currTime ->
-            logw(currTime)
+        rotatedCircleImageView.onChangeTime = { _, _ ->
         }
         btn_click.setOnClickListener {
-            logw("!!!!!!!!!!!")
             time += 10
             rotatedCircleImageView.endTime = time
         }
