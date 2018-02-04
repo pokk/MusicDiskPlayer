@@ -15,11 +15,6 @@ class MainActivity : AppCompatActivity() {
         rotatedCircleImageView.startTime = 44
 
         rotatedCircleImageView.onClickEvent = { view, isPaused ->
-            if (isPaused)
-                view.stop()
-            else
-                view.start()
-
         }
         rotatedCircleImageView.onChangeTime = { _, _ ->
         }
