@@ -66,7 +66,7 @@ This is also allowed change by programming! 😄
 It's easy to import it, you just put them into your gradle file.
 
 ```gradle
-compile 'com.devrapid.jieyi:musicdiskplayer:0.1.3'
+compile 'com.devrapid.jieyi:musicdiskplayer:0.1.5'
 ```
 
 ## Maven
@@ -75,7 +75,7 @@ compile 'com.devrapid.jieyi:musicdiskplayer:0.1.3'
 <dependency>
   <groupId>com.devrapid.jieyi</groupId>
   <artifactId>musicdiskplayer</artifactId>
-  <version>0.1.1</version>
+  <version>0.1.5</version>
   <type>pom</type>
 </dependency>
 ```
@@ -83,6 +83,10 @@ compile 'com.devrapid.jieyi:musicdiskplayer:0.1.3'
 # Feature
 
 - [ ] Customize the label color.
+
+# Issue
+
+- [ ] When set the start time, the actual label and progress won't be correct.
 
 # License
 
