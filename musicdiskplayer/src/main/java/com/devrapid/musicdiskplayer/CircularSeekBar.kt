@@ -12,6 +12,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Circular seek bar.
@@ -19,7 +21,7 @@ import android.view.animation.LinearInterpolator
  * @author  jieyi
  * @since   7/17/17
  */
-class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0):
+class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     View(context, attrs, defStyleAttr) {
     companion object {
         private const val MAX_VALUE = 100f
@@ -31,14 +33,21 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     //region Variables of setting
+    /** The value is between 0 ~ totalTime */
+    var currentTime = 0
+        set (value) {
+            val goInRange = min(max(0, value), totalTime)
+            field = goInRange
+            progress = currentTime.toDouble() / totalTime.toDouble() * 100
+        }
+    /** The value is between 0.0 ~ 100.0 */
     var progress = .0
         set (value) {
-            field = value * rate
+            val goInRange = min(max(0.0, value), 100.0)  // Forcing setting range in 0.0 ~ 100.0
+            field = goInRange * rate
             val rawValue = (field / rate).toInt()
 
-            if (this@CircularSeekBar.isTouchButton) {
-                this@CircularSeekBar.remainedTime = (this@CircularSeekBar.totalTime - rawValue * this@CircularSeekBar.totalTime / 100).toLong()
-            }
+            remainedTime = (totalTime - rawValue * totalTime / 100).toLong()
             // When change the value, it will invoke callback function.
             onProgressChanged?.invoke(rawValue, remainedTime.toInt())
             invalidate()
@@ -123,19 +132,19 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         PathMeasure().apply {
             setPath(Path().apply {
                 addArc(RectF(INNER_PADDING + paddingStart,
-                    INNER_PADDING + paddingTop,
-                    width.toFloat() - paddingEnd - INNER_PADDING,
-                    height.toFloat() - paddingBottom - INNER_PADDING),
-                    startDegree,
-                    sweepDegree)
+                             INNER_PADDING + paddingTop,
+                             width.toFloat() - paddingEnd - INNER_PADDING,
+                             height.toFloat() - paddingBottom - INNER_PADDING),
+                       startDegree,
+                       sweepDegree)
             }, false)
         }
     }
     private val rectF by lazy {
         RectF(INNER_PADDING + paddingStart,
-            INNER_PADDING + paddingTop,
-            width.toFloat() - paddingEnd - INNER_PADDING,
-            height.toFloat() - paddingBottom - INNER_PADDING)
+              INNER_PADDING + paddingTop,
+              width.toFloat() - paddingEnd - INNER_PADDING,
+              height.toFloat() - paddingBottom - INNER_PADDING)
     }
     private var rate = sweepDegree / MAX_VALUE
         set(value) {
@@ -182,16 +191,12 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
                 }
             }
             MotionEvent.ACTION_MOVE -> {
-                if (!isTouchButton) {
-                    return false
-                }
+                if (!isTouchButton) return false
 
                 val down_degree = calculateTouchDegree(preX, preY)
                 val degree = calculateTouchDegree(e.x, e.y)
 
-                if (sweepDegree <= degree) {
-                    return false
-                }
+                if (sweepDegree <= degree) return false
 
                 if (animatorPlay.isRunning) {
                     isAnimationRunning = true
@@ -222,16 +227,16 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val square = minOf(ViewGroup.getDefaultSize(suggestedMinimumWidth, widthMeasureSpec),
-            ViewGroup.getDefaultSize(suggestedMinimumHeight, heightMeasureSpec))
+                           ViewGroup.getDefaultSize(suggestedMinimumHeight, heightMeasureSpec))
         setMeasuredDimension(square, square)
     }
 
     override fun onDraw(canvas: Canvas) {
         canvas.drawArc(rectF,
-            startDegree + sweepDegree,
-            (-sweepDegree + progress).toFloat(),
-            false,
-            unplayProgressPaint)
+                       startDegree + sweepDegree,
+                       (-sweepDegree + progress).toFloat(),
+                       false,
+                       unplayProgressPaint)
         canvas.drawArc(rectF, startDegree, (0f + progress).toFloat(), false, playedProgressPaint)
 
         pm.getPosTan((progress / rate * pm.length / MAX_VALUE).toFloat(), pos, null)
@@ -251,7 +256,9 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
      *
      * @param secondDuration Remained time(second).
      */
-    fun playAnimator(secondDuration: Long) {
+    fun playAnimator(secondDuration: Long = remainedTime) {
+        if (animatorPlay.isRunning) return
+
         animatorPlay = ValueAnimator.ofFloat((progress / rate).toFloat(), MAX_VALUE).apply {
             duration = secondDuration * 1000
             interpolator = LinearInterpolator()
@@ -285,9 +292,6 @@ class CircularSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         val x = posX - pivotX.toDouble()
         val y = posY - pivotY.toDouble()
 
-        println("$y  $x")
-        println(Math.atan2(y, x))
-        println(startDegree / 180)
         // Let's angel in 360°
         val angle = (Math.toDegrees(Math.atan2(y, x) - startDegree / 180 * Math.PI) + 360) % 360
 

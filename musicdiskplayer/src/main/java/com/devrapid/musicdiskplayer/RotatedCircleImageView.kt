@@ -32,7 +32,6 @@ open class RotatedCircleImageView
             field = value * TIME_MILLION
         }
     var isPauseState = false
-        private set
     //endregion
 
     private val rotateAnimator by lazy {

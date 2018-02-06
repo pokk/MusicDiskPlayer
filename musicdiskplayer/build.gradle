@@ -29,6 +29,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
     implementation "com.mikhaellopez:circularimageview:3.0.2"
+
+    debugImplementation "com.devrapid.jieyi:kotlinknifer:1.2.22"
 }
 
 apply from: 'https://raw.githubusercontent.com/pokk/JCenterUploader/master/Uploader.gradle'
