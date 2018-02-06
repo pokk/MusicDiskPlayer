@@ -15,26 +15,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttt"/>
+        app:layout_constraintTop_toBottomOf="@+id/rcii"/>
 
-    <!--<com.devrapid.musicdiskplayer.RotatedCircleWithIconImageView-->
-    <!--android:id="@+id/rotatedCircleImageView"-->
-    <!--android:layout_width="200dp"-->
-    <!--android:layout_height="200dp"-->
-    <!--android:layout_marginBottom="47dp"-->
-    <!--app:end_time="300"-->
-    <!--app:layout_constraintBottom_toTopOf="@+id/textView"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="0.522"-->
-    <!--app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--app:layout_constraintRight_toRightOf="parent"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent"-->
-    <!--app:progress_color="@color/colorAccent"-->
-    <!--app:src="@drawable/sample_lady_gaga"/>-->
-
-    <com.devrapid.musicdiskplayer.CircularSeekBar
-        android:id="@+id/ttt"
+    <com.devrapid.musicdiskplayer.RotatedCircleWithIconImageView
+        android:id="@+id/rcii"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginBottom="47dp"
